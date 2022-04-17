@@ -1,19 +1,19 @@
 package com.example.appricottesttask.domain
 
-import com.example.appricottesttask.domain.models.Characters
+import com.example.appricottesttask.domain.models.DetailCharacter
 import com.example.sevenwindsstudiotask.common.Resource
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetRickAndMortyCharacters @Inject constructor(
+class GetDetailCharacter @Inject constructor(
     private val repository: RickAndMortyRepository
 ) {
 
-    suspend fun getRickAndMortyCharacters(page: Int): Resource<List<Characters>> {
+    suspend fun getDetailCharacters(id: Int): Resource<DetailCharacter> {
         return try {
-            val rickAndMortyCharacters = repository.getCharacters(page)
-            Resource.Success(rickAndMortyCharacters)
+            val detailCharacters = repository.getDetailCharacter(id)
+            Resource.Success(detailCharacters)
         } catch (e: HttpException) {
             Resource.Error(e.localizedMessage ?: "An unexpected error occured")
         } catch (e: IOException) {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appricottesttask.R
 import com.example.appricottesttask.databinding.FragmentRickAndMortyBinding
@@ -26,6 +27,16 @@ class RickAndMortyFragment : Fragment(R.layout.fragment_rick_and_morty) {
 
         setupRecyclerView()
         initRecyclerAdapter()
+
+        rickAndMortyAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putInt("id", it.id)
+            }
+            findNavController().navigate(
+                R.id.action_rickAndMortyFragment_to_detailCharacterFragment,
+                bundle
+            )
+        }
     }
 
     private fun setupRecyclerView() {

@@ -1,5 +1,6 @@
 package com.example.appricottesttask.di
 
+import com.example.appricottesttask.data.DetailCharacterApiClient
 import com.example.appricottesttask.data.RickAndMortyApiClient
 import com.example.appricottesttask.data.RickAndMortyApiService
 import com.example.appricottesttask.data.RickAndMortyRepositoryImpl
@@ -30,6 +31,12 @@ object NetworkModule {
     @Provides
     fun provideRickAndMortyApiClient(retrofit: Retrofit): RickAndMortyApiClient {
         return retrofit.create(RickAndMortyApiClient::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDetailCharacterApiClient(retrofit: Retrofit): DetailCharacterApiClient {
+        return retrofit.create(DetailCharacterApiClient::class.java)
     }
 
     @Singleton

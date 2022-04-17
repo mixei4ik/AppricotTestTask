@@ -18,16 +18,8 @@ class RickAndMortyAdapter : RecyclerView.Adapter<RickAndMortyAdapter.RickAndMort
         }
 
         override fun areContentsTheSame(oldItem: Characters, newItem: Characters): Boolean {
-            return oldItem.id == newItem.id &&
-                    oldItem.name == newItem.name &&
-                    oldItem.status == newItem.status &&
-                    oldItem.species == newItem.species &&
-                    oldItem.gender == newItem.gender &&
-                    oldItem.image == newItem.image &&
-                    oldItem.amountEpisode == newItem.amountEpisode &&
-                    oldItem.location == newItem.location
+            return oldItem == newItem
         }
-
     }
 
     private val diff = AsyncListDiffer(this, diffCallback)
@@ -53,6 +45,9 @@ class RickAndMortyAdapter : RecyclerView.Adapter<RickAndMortyAdapter.RickAndMort
                 error(R.drawable.ic_image)
                 crossfade(true)
             }
+            holder.itemView.setOnClickListener {
+                onItemClickListener?.let { it(diff.currentList[position]) }
+            }
         }
     }
 
@@ -60,4 +55,10 @@ class RickAndMortyAdapter : RecyclerView.Adapter<RickAndMortyAdapter.RickAndMort
 
     class RickAndMortyViewHolder(val binding: RickAndMortyItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    private var onItemClickListener: ((Characters) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Characters) -> Unit) {
+        onItemClickListener = listener
+    }
 }

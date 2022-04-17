@@ -9,5 +9,17 @@
         android:id="@+id/rickAndMortyFragment"
         android:name="com.example.appricottesttask.presentation.ui.RickAndMortyFragment"
         android:label="Rick and Morty Characters"
-        tools:layout="@layout/fragment_rick_and_morty" />
+        tools:layout="@layout/fragment_rick_and_morty" >
+        <action
+            android:id="@+id/action_rickAndMortyFragment_to_detailCharacterFragment"
+            app:destination="@id/detailCharacterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailCharacterFragment"
+        android:name="com.example.appricottesttask.presentation.ui.DetailCharacterFragment"
+        android:label="Detail Character" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
