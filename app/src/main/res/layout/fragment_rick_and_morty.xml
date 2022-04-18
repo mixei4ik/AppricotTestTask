@@ -13,10 +13,4 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/rick_and_morty_item" />
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
 </FrameLayout>

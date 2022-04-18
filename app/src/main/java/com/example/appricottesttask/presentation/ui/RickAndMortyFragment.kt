@@ -2,15 +2,16 @@ package com.example.appricottesttask.presentation.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appricottesttask.R
 import com.example.appricottesttask.databinding.FragmentRickAndMortyBinding
 import com.example.appricottesttask.presentation.RickAndMortyAdapter
 import com.example.appricottesttask.presentation.RickAndMortyViewModel
-import com.example.sevenwindsstudiotask.common.Resource
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class RickAndMortyFragment : Fragment(R.layout.fragment_rick_and_morty) {
 
@@ -26,7 +27,12 @@ class RickAndMortyFragment : Fragment(R.layout.fragment_rick_and_morty) {
         rickAndMortyAdapter = RickAndMortyAdapter()
 
         setupRecyclerView()
-        initRecyclerAdapter()
+
+        lifecycleScope.launch {
+            rickAndMortyViewModel.rickAndMortyCharacters.collectLatest { pagingData ->
+                rickAndMortyAdapter.submitData(pagingData)
+            }
+        }
 
         rickAndMortyAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -43,29 +49,6 @@ class RickAndMortyFragment : Fragment(R.layout.fragment_rick_and_morty) {
         binding.rickAndMortyRecyclerview.apply {
             adapter = rickAndMortyAdapter
             layoutManager = GridLayoutManager(activity, 2)
-        }
-    }
-
-    private fun initRecyclerAdapter() {
-        rickAndMortyViewModel.rickAndMortyCharacters.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    response.data?.let { characters ->
-                        rickAndMortyAdapter.characters = characters
-                    }
-                }
-                is Resource.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                }
-                is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-            }
         }
     }
 }

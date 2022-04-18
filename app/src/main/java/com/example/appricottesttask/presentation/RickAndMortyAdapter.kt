@@ -2,7 +2,7 @@ package com.example.appricottesttask.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -10,9 +10,9 @@ import com.example.appricottesttask.R
 import com.example.appricottesttask.databinding.RickAndMortyItemBinding
 import com.example.appricottesttask.domain.models.Characters
 
-class RickAndMortyAdapter : RecyclerView.Adapter<RickAndMortyAdapter.RickAndMortyViewHolder>() {
+class RickAndMortyAdapter : PagingDataAdapter<Characters, RickAndMortyAdapter.RickAndMortyViewHolder>(DiffUtilCallBack()) {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Characters>() {
+    class DiffUtilCallBack: DiffUtil.ItemCallback<Characters>() {
         override fun areItemsTheSame(oldItem: Characters, newItem: Characters): Boolean {
             return oldItem.id == newItem.id
         }
@@ -22,12 +22,6 @@ class RickAndMortyAdapter : RecyclerView.Adapter<RickAndMortyAdapter.RickAndMort
         }
     }
 
-    private val diff = AsyncListDiffer(this, diffCallback)
-
-    var characters: List<Characters>
-        get() = diff.currentList
-        set(value) = diff.submitList(value)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RickAndMortyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RickAndMortyItemBinding.inflate(inflater, parent, false)
@@ -35,23 +29,21 @@ class RickAndMortyAdapter : RecyclerView.Adapter<RickAndMortyAdapter.RickAndMort
     }
 
     override fun onBindViewHolder(holder: RickAndMortyViewHolder, position: Int) {
-        val character = characters[position]
+        val character = getItem(position)
         with(holder.binding) {
-            nameText.text = character.name
-            speciesText.text = character.species
-            genderText.text = character.gender
-            imageView.load(character.image) {
+            nameText.text = character?.name
+            speciesText.text = character?.species
+            genderText.text = character?.gender
+            imageView.load(character?.image) {
                 placeholder(R.drawable.ic_image)
                 error(R.drawable.ic_image)
                 crossfade(true)
             }
             holder.itemView.setOnClickListener {
-                onItemClickListener?.let { it(diff.currentList[position]) }
+                onItemClickListener?.let { it(character!!) }
             }
         }
     }
-
-    override fun getItemCount() = characters.size
 
     class RickAndMortyViewHolder(val binding: RickAndMortyItemBinding) :
         RecyclerView.ViewHolder(binding.root)
