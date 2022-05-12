@@ -37,17 +37,17 @@ class DetailCharacterFragment: Fragment(R.layout.fragment_detail_character) {
                     binding.progressBar.visibility = View.GONE
                     response.data?.let { character ->
                         with(binding) {
-                            detailNameText.text = "Name: ${character.name}"
-                            detailStatusText.text = "Status: ${character.status}"
-                            detailSpeciesText.text = "Species: ${character.species}"
-                            detailLocationText.text = "Last location: ${character.location}"
+                            detailNameText.text = character.name
+                            detailStatusText.text = character.status
+                            detailSpeciesText.text = character.species
+                            detailLocationText.text = character.location
                             detailImageView.load(character.image) {
                                 placeholder(R.drawable.ic_image)
                                 error(R.drawable.ic_image)
                                 crossfade(true)
                             }
-                            detailGenderText.text = "Gender: ${character.gender}"
-                            detailAmountEpisodeText.text = "Amount Episode: ${character.amountEpisode}"
+                            detailGenderText.text = character.gender
+                            detailAmountEpisodeText.text = character.amountEpisode.toString()
                         }
                     }
                 }

@@ -29,18 +29,18 @@ class RickAndMortyAdapter : PagingDataAdapter<Characters, RickAndMortyAdapter.Ri
     }
 
     override fun onBindViewHolder(holder: RickAndMortyViewHolder, position: Int) {
-        val character = getItem(position)
+        val character = getItem(position) ?: Characters(0, "", "", "", "")
         with(holder.binding) {
-            nameText.text = character?.name
-            speciesText.text = character?.species
-            genderText.text = character?.gender
-            imageView.load(character?.image) {
+            nameText.text = character.name
+            speciesText.text = character.species
+            genderText.text = character.gender
+            imageView.load(character.image) {
                 placeholder(R.drawable.ic_image)
                 error(R.drawable.ic_image)
                 crossfade(true)
             }
             holder.itemView.setOnClickListener {
-                onItemClickListener?.let { it(character!!) }
+                onItemClickListener?.let { it(character) }
             }
         }
     }

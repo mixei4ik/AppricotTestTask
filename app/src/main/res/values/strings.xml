@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">AppricotTestTask</string>
-    <string name="name">Name</string>
-    <string name="species">Species</string>
-    <string name="gender">Gender</string>
+    <string name="name">Name :</string>
+    <string name="species">Species :</string>
+    <string name="gender">Gender:</string>
     <string name="image_rick_and_morty_character">Image Rick and Morty character</string>
-    <string name="status">Status</string>
-    <string name="location">Location</string>
-    <string name="amountEpisode">Amount Episode</string>
+    <string name="status">Status :</string>
+    <string name="location">Location :</string>
+    <string name="amountEpisode">Amount Episode :</string>
 </resources>
